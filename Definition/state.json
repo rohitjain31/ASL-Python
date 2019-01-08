@@ -1,0 +1,49 @@
+{
+  "Comment": "An example to use ASL",
+  "StartAt": "FirstState",
+  "States": {
+    "FirstState": {
+      "Type": "Task",
+      "Resource": "https://jsonplaceholder.typicode.com/todos/1",
+      "Next": "ChoiceState"
+    },
+    "ChoiceState": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.a",
+          "NumericEquals": 1,
+          "Next": "FirstMatchState"
+        },
+        {
+          "Variable": "$.a",
+          "NumericEquals": 2,
+          "Next": "SecondMatchState"
+        }
+      ],
+      "Default": "DefaultState"
+    },
+    "FirstMatchState": {
+      "Type": "Task",
+      "Resource": "GetUserInfo",
+      "Next": "NextState"
+    },
+    "SecondMatchState": {
+      "Type": "Task",
+      "Resource": "GetEmployeeInfo",
+      "Next": "NextState"
+    },
+    "DefaultState": {
+      "Type": "Fail",
+      "Error": "DefaultStateError",
+      "Cause": "No Matches!"
+    },
+    "NextState": {
+      "Type": "Pass",
+      "Result": {
+        "Message": "Value Matched!"
+      },
+      "End": true
+    }
+  }
+}
